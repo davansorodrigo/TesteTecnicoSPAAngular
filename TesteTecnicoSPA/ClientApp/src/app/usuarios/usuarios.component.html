@@ -1,0 +1,87 @@
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Gerenciamento de usuários</li>
+  </ol>
+</nav>
+
+<div class="container">
+  <div class="card list-usuario">
+    <h5 class="card-header">Lista de usuários</h5>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#id</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Sobrenome</th>
+            <th scope="col">Email</th>
+            <th scope="col">Data de Nascimento</th>
+            <th scope="col">Escolaridade</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuarios">
+            <td>{{usuario.id}}</td>
+            <td>{{usuario.nome}}</td>
+            <td>{{usuario.sobrenome}}</td>
+            <td>{{usuario.email}}</td>
+            <td>{{usuario.dataNascimento | date:'shortDate'}}</td>
+            <td>{{usuario.escolaridade.descricao}}</td>
+            <td>
+              <button type="button" class="btn btn-warning btn-sm" (click)="editUsuario(usuario)">Editar</button>
+              <button type="button" class="btn btn-danger btn-sm ml-1" (click)="excluirUsuario(usuario.id)">Deletar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <div class="card add-usuario">
+    <h5 class="card-header">Adicionar/Atualizar usuário</h5>
+    <div class="card-body">
+      <form id="add-form" (ngSubmit)="f.form.valid && salvarUsuario(f)" #f="ngForm" novalidate>
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" [(ngModel)]="usuario.nome" id="nome" name="nome" #nome="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && nome.invalid }" placeholder="Digite o nome">
+          <div *ngIf="f.submitted && nome.invalid" class="invalid-feedback">
+            <div *ngIf="nome.errors.required">Nome é obrigatório</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sobrenome">Sobrenome</label>
+          <input type="text" [(ngModel)]="usuario.sobrenome" id="sobrenome" name="sobrenome" #sobrenome="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && sobrenome.invalid }" placeholder="Digite o sobrenome">
+          <div *ngIf="f.submitted && sobrenome.invalid" class="invalid-feedback">
+            <div *ngIf="sobrenome.errors.required">Sobrenome é obrigatório</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" [(ngModel)]="usuario.email" id="email" name="email" #email="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" placeholder="Digite o email">
+          <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+            <div *ngIf="email.errors.required">Email é obrigatório</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dataNascimento">Data de Nascimento</label>
+          <input type="date" [(ngModel)]="usuario.dataNascimento" id="dataNascimento" name="dataNascimento" #dataNascimento="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && dataNascimento.invalid }" placeholder="Digite a data de nascimento">
+          <div *ngIf="f.submitted && dataNascimento.invalid" class="invalid-feedback">
+            <div *ngIf="dataNascimento.errors.required">Data de nascimento é obrigatória</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="escolaridadeId">Escolaridade</label>
+          <input type="number" [(ngModel)]="usuario.escolaridadeId" id="escolaridadeId" name="escolaridadeId" #escolaridadeId="ngModel" required class="form-control" [ngClass]="{ 'is-invalid': f.submitted && escolaridadeId.invalid }" placeholder="Digite a escolaridade">
+          <div *ngIf="f.submitted && escolaridadeId.invalid" class="invalid-feedback">
+            <div *ngIf="escolaridadeId.errors.required">Escolaridade é obrigatório</div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-add-usuario">Salvar</button>
+        <button type="reset" class="btn btn-secondary btn-add-usuario" (click)="cleanForm(f)">Cancelar</button>
+      </form>
+    </div>
+  </div>
+</div>
